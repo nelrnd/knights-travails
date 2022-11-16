@@ -96,5 +96,20 @@ const knightMoves = (startPos, destiPos) => {
     i++;
   }
 
-  return result;
+  return cleanResult(result);
+};
+
+const cleanResult = (result) => {
+  const path = [];
+
+  const getOriginNode = (result) => {
+    path.unshift([result.x, result.y]);
+    if (result.comingFrom) {
+      getOriginNode(result.comingFrom);
+    }
+  };
+
+  getOriginNode(result);
+
+  return { path, nbOfMoves: path.length };
 };
