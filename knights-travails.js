@@ -22,7 +22,7 @@ const findNode = (chessboard, x, y) => {
   return chessboard.find((node) => node.x === x && node.y === y);
 };
 
-// get every squares a knight can move
+// get every square a knight can move to
 // from every square in the chessboard
 const getAllKnightMoves = () => {
   // all the moves a knight can take
@@ -60,4 +60,41 @@ const getAllKnightMoves = () => {
   }
 
   return chessboard;
+};
+
+const knightMoves = (startPos, destiPos) => {
+  // get chessboard with all knight moves
+  const allKnightMoves = getAllKnightMoves();
+
+  // find start and destination nodes in chessboard
+  const [startX, startY] = startPos;
+  const [destiX, destiY] = destiPos;
+  const startNode = findNode(allKnightMoves, startX, startY);
+  const destiNode = findNode(allKnightMoves, destiX, destiY);
+
+  const queue = [startNode];
+  let i = 0;
+
+  let result;
+
+  while (i < queue.length) {
+    // for every adjacent node to current node
+    for (const adjNode of queue[i].adjacents) {
+      // if node isn't already present in queue
+      if (!queue.find((node) => node === adjNode)) {
+        // link node from its origin node
+        adjNode.comingFrom = queue[i];
+
+        if (adjNode === destiNode) {
+          result = adjNode;
+          break;
+        } else {
+          queue.push(adjNode);
+        }
+      }
+    }
+    i++;
+  }
+
+  return result;
 };
