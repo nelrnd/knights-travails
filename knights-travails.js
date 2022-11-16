@@ -52,7 +52,7 @@ const getAllKnightMoves = () => {
       const newNode = findNode(chessboard, newX, newY);
 
       // if move isn't possible, skip to next move
-      if (!newNode) break;
+      if (!newNode) continue;
 
       // else, link new node to current node
       node.adjacents.push(newNode);
@@ -77,7 +77,7 @@ const knightMoves = (startPos, destiPos) => {
 
   let result;
 
-  while (i < queue.length) {
+  breadFirstSearch: while (i < queue.length) {
     // for every adjacent node to current node
     for (const adjNode of queue[i].adjacents) {
       // if node isn't already present in queue
@@ -87,7 +87,7 @@ const knightMoves = (startPos, destiPos) => {
 
         if (adjNode === destiNode) {
           result = adjNode;
-          break;
+          break breadFirstSearch;
         } else {
           queue.push(adjNode);
         }
@@ -96,12 +96,11 @@ const knightMoves = (startPos, destiPos) => {
     i++;
   }
 
-  return cleanResult(result);
-};
+  result = cleanResult(result);
 
-const getPathSize = (path) => {
-  if (!path.comingFrom) return 1;
-  return 1 + getPathSize(path.comingFrom);
+  printResult(result);
+
+  return result;
 };
 
 const cleanResult = (result) => {
@@ -116,5 +115,13 @@ const cleanResult = (result) => {
 
   getOriginNode(result);
 
-  return { path, nbOfMoves: path.length };
+  return { path, nbOfMoves: path.length - 1 };
+};
+
+const printResult = (result) => {
+  const text = [`Possible in ${result.nbOfMoves} moves :`, ...result.path];
+
+  for (const line of text) {
+    console.log(line);
+  }
 };
