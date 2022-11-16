@@ -16,3 +16,8 @@ const createChessboard = () => {
 
   return chessboard;
 };
+
+// find a node in a chessboard with x and y
+const findNode = (chessboard, x, y) => {
+  return chessboard.find((node) => node.x === x && node.y === y);
+};
