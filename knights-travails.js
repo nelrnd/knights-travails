@@ -99,6 +99,11 @@ const knightMoves = (startPos, destiPos) => {
   return cleanResult(result);
 };
 
+const getPathSize = (path) => {
+  if (!path.comingFrom) return 1;
+  return 1 + getPathSize(path.comingFrom);
+};
+
 const cleanResult = (result) => {
   const path = [];
 
